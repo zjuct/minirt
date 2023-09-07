@@ -10,7 +10,7 @@ async fn _demo1() {
 async fn _demo2() {
     let (tx, rx) = async_channel::bounded(1);
     std::thread::spawn(move || {
-        std::thread::sleep(Duration::new(10, 0));
+        std::thread::sleep(Duration::new(2, 0));
         tx.send_blocking("world")
     });
     println!("hello");
@@ -20,7 +20,7 @@ async fn _demo2() {
 
 async fn _demo3() {
     spawn(_demo4());
-    async_std::task::sleep(Duration::new(5, 0)).await;
+    async_std::task::sleep(Duration::new(2, 0)).await;
     println!("Hello World!");
 }
 
