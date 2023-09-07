@@ -1,12 +1,7 @@
 use minirt::{block_on, spawn};
-use std::{time::Duration, borrow::BorrowMut};
-use async_channel::{self, Sender, Receiver};
-use std::future::Future;
+use std::time::Duration;
+use async_channel::{self};
 use async_std;
-
-use crate::timer_future::TimerFuture;
-
-mod timer_future;
 
 async fn _demo1() {
     println!("Hello");
@@ -33,12 +28,8 @@ async fn _demo4() {
     println!("Hello World2!");
 }
 
-
 fn main() {
-//    println!("hello");
-//    block_on(
-//        TimerFuture::new(Duration::new(5, 0))
-//    );
-//    println!("world");
+    block_on(_demo1());
+    block_on(_demo2());
     block_on(_demo3());
 }

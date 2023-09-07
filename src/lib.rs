@@ -25,7 +25,6 @@ scoped_thread_local!(static SIGNAL: Arc<Signal>);
 // RUNNABLE中存放所有spawn出的从future
 scoped_thread_local!(static RUNNABLE: Mutex<VecDeque<Arc<Task>>>);
 
-// 为Task实现Wake后，就不需要为Signal实现Wake了
 impl Wake for Task {
     fn wake(self: Arc<Self>) {
         RUNNABLE.with(|runnable|
@@ -61,7 +60,7 @@ impl Signal {
 
     // 当executor没有可poll的future时，调用Signal::wait让出CPU
     fn wait(&self) {
-        eprintln!("Signal::wait");
+//        eprintln!("Signal::wait");
         let mut state = self.state.lock().unwrap();
         match *state {
             State::Empty => {
@@ -81,9 +80,9 @@ impl Signal {
 
     // 外部调用notify来唤醒executor
     fn notify(&self) {
-        eprintln!("Signal::notify");
+//        eprintln!("Signal::notify");
         let mut state = self.state.lock().unwrap();
-        eprintln!("state before notify: {:?}", state);
+//        eprintln!("state before notify: {:?}", state);
         match *state {
             State::Empty => {
                 *state = State::Notified;
@@ -101,7 +100,7 @@ impl Signal {
 impl Wake for Signal {
     fn wake(self: Arc<Self>) {
         // 当前executor只支持运行单个future，因此不需要维护runnable队列，这里只需要notify
-        eprintln!("Signal::wake");
+//        eprintln!("Signal::wake");
         self.notify();
     }
 }
