@@ -1,7 +1,8 @@
-use minirt::block_on;
+use minirt::{block_on, spawn};
 use std::{time::Duration, borrow::BorrowMut};
 use async_channel::{self, Sender, Receiver};
 use std::future::Future;
+use async_std;
 
 use crate::timer_future::TimerFuture;
 
@@ -24,6 +25,7 @@ async fn _demo2() {
 
 async fn _demo3() {
     spawn(_demo4());
+    async_std::task::sleep(Duration::new(5, 0)).await;
     println!("Hello World!");
 }
 
@@ -39,5 +41,4 @@ fn main() {
 //    );
 //    println!("world");
     block_on(_demo3());
-
 }
